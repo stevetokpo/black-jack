@@ -1,0 +1,39 @@
+<script type="text/javascript">
+	var $expera = $solde * 2;
+	$('#status').prepend('<p>Le gain espéré est de: <b>' + $expera + ' $</b></p>');
+	$('#tools').html('<p>Faîtes votre choix:</p><button class="btn-lion" onclick="machoise(1)">Lion</button><button class="btn-cheval" onclick="machoise(2)">Cheval</button><button class="btn-chevre" onclick="machoise(3)">Chèvre</button>');
+	var $min = 1;
+	var $max = 3;
+	var $winner = parseInt(Math.random() * ($max - $min) + $min);
+	function machoise(value) {
+		if ( confirm('Êtes-vous sûr de ce choix?') ) {
+			$('#tools').html('En cours...');
+			if ( value == $winner ) {
+				$('#status').prepend('<p class="success">Félications! Vous aviez fait un gain de: <b>' + $expera + ' $</b></p>');
+				$solde += $expera;
+				jouerLeson('success');
+			}
+			else {
+				$('#status').prepend('<p class="danger">Nous sommes navrés, ce n\'étais pas la bonne réponse! :(');
+				jouerLeson('danger');
+			}
+
+			$('#status').prepend('Actualisation en cours...');
+			setTimeout(doit3, 3500);
+			function doit3() {
+				
+				printSolde($solde);
+				if ( $solde > 0 ) {
+					$('#tools').html('<div id="tools"><button onclick="misecote()" class="btn-primary">Miser</button><button onclick="logout()" class="btn btn-danger">Quitter le jeu</button></div>');
+					$('#status').prepend('Vous pouvez à présent placer une nouvelle mise.');
+					jouerLeson('info');
+				}
+				else {
+					$('#tools').html('<div id="tools"><button onclick="logout()" class="btn btn-danger">Quitter le jeu</button></div>');
+					$('#status').prepend('<p class="danger">Vous êtes GAME OVER!</p>');
+					jouerLeson('danger');
+				}
+			}
+		}
+	}
+</script>

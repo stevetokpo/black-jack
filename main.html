@@ -1,0 +1,63 @@
+<p>
+	Le jeu a commencé!
+</p>
+<h6>
+	Solde: <u id="solde">...</u> $
+</h6>
+<div id="tools">
+	<button onclick="misecote()" class="btn-primary">
+		Miser
+	</button>
+	<button onclick="logout()" class="btn btn-danger">
+		Quitter le jeu
+	</button>
+</div>
+<div id="status">
+	
+</div>
+
+<script type="text/javascript">
+
+	var $solde = 500;
+	// Son
+function jouerLeson(code) {
+	var audio = new Audio( 'mp3/' + code + '.mp3');
+  	audio.play();
+}
+	function printSolde(val) {
+		setTimeout(doit, 500);
+		function doit() {
+			$('#solde').html(val);
+		}
+	}
+	function logout() {
+		if ( confirm('Êtes-vous sûr de vouloi quitter le jeu! Vos données seront réinitialisées!') ) {
+			$('#status').prepend('<p class="danger">Déconnexion en cours...</p>');
+			setTimeout(doit1, 1800);
+			function doit1() {
+				$('#main').load('init.html');
+			}
+			jouerLeson('info');
+		}
+	}
+	function misecote() {
+		var $mamise = parseInt(prompt('Entrez le montant de votre mise'));
+		if ( $mamise >= 10 ) {
+			$solde -= $mamise;
+			printSolde($solde);
+			$('#status').prepend('<p>' + $mamise + '$ a été défalqué de votre compte. Le jeu peut commencer!</p>');
+			jouerLeson('info');
+			$('#tools').html('<p>En cours, patientez...</p>');
+			setTimeout(doit2, 2000);
+			function doit2() {
+				$('#tools').load('game.html');
+			}
+		}
+		else {
+			$('#status').prepend('<p class="danger">Vous devrez miser plus que 10$</p>');
+			jouerLeson('warning');
+		}
+	}
+
+	printSolde($solde);
+</script>
